@@ -1,6 +1,40 @@
+mod claim;
+mod create_account_and_claim;
+mod get_key_balance;
+mod get_metadata;
+mod new;
+mod update_drops;
+
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::{env, ext_contract, near_bindgen, Promise, AccountId};
+use near_sdk::json_types::U128;
+use near_sdk::serde_json::json;
+use near_sdk::{
+  env, is_promise_success, near_bindgen, AccountId, Balance, Gas, PanicOnDefault, Promise,
+  PublicKey,
+};
 
 #[near_bindgen]
-#[derive(Default, BorshDeserialize, BorshSerialize)]
-pub struct Pubdrop {}
+#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
+pub struct Pubdrop {
+  active_drops: u64,
+  drop_balance: Balance,
+  account_creator: AccountId,
+  claim_public_key: PublicKey,
+  claim_secret_key: String,
+}
+
+// Utils
+impl Pubdrop {
+  fn can_claim(&self) {
+    assert_eq!(
+      env::signer_account_pk(),
+      self.claim_public_key,
+      "Invalid claiming key"
+    );
+    assert!(self.active_drops > 0, "No active drops available");
+  }
+}
+
+fn tgas(value: u64) -> Gas {
+  Gas(value * 10u64.pow(12))
+}
