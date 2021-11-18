@@ -1,3 +1,4 @@
+mod add_claim_key;
 mod claim;
 mod create_account_and_claim;
 mod get_key_balance;
@@ -19,18 +20,11 @@ pub struct Pubdrop {
   active_drops: u64,
   drop_balance: Balance,
   account_creator: AccountId,
-  claim_public_key: PublicKey,
-  claim_secret_key: String,
 }
 
 // Utils
 impl Pubdrop {
   fn can_claim(&self) {
-    assert_eq!(
-      env::signer_account_pk(),
-      self.claim_public_key,
-      "Invalid claiming key"
-    );
     assert!(self.active_drops > 0, "No active drops available");
   }
 }

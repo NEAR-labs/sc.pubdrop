@@ -4,7 +4,7 @@ use pubdrop::PubdropContract;
 use std::rc::Rc;
 
 lazy_static_include::lazy_static_include_bytes! {
-   PUBDROP_WASM => "../../wasm/pubdrop.wasm",
+   PUBDROP_WASM => "wasm/pubdrop.wasm",
 }
 
 pub struct Pubdrop {
