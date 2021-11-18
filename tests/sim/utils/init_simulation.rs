@@ -5,11 +5,11 @@ use std::rc::Rc;
 
 pub type Runtime = Rc<RefCell<RuntimeStandalone>>;
 
-pub fn init_simulation() -> (UserAccount, Runtime) {
+pub fn init_simulation() -> (Rc<UserAccount>, Runtime) {
   let (runtime, signer, root_account_id) = init_runtime(None);
   let wrapped_runtime = Rc::new(RefCell::new(runtime));
   (
-    UserAccount::new(&wrapped_runtime, root_account_id, signer),
+    Rc::new(UserAccount::new(&wrapped_runtime, root_account_id, signer)),
     wrapped_runtime,
   )
 }

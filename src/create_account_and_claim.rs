@@ -2,12 +2,13 @@ use crate::*;
 
 #[near_bindgen]
 impl Pubdrop {
+  #[private]
   pub fn create_account_and_claim(
     self,
     new_account_id: AccountId,
     new_public_key: PublicKey,
   ) -> Promise {
-    self.can_claim();
+    self.has_active_drops();
 
     Promise::new(self.account_creator)
       .function_call(
@@ -43,6 +44,6 @@ impl Pubdrop {
       new_account_id
     );
     self.active_drops -= 1;
-    env::log_str(format!("New account @{} claimed a drop", new_account_id,).as_str());
+    log!("New account @{} claimed a drop", new_account_id,);
   }
 }

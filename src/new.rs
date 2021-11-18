@@ -3,10 +3,10 @@ use crate::*;
 #[near_bindgen]
 impl Pubdrop {
   #[init]
-  pub fn new(account_creator: AccountId, active_drops: u64, drop_balance: Balance) -> Self {
+  pub fn new(account_creator: AccountId) -> Self {
     Self {
-      active_drops,
-      drop_balance,
+      active_drops: 0,
+      drop_balance: 0,
       account_creator,
     }
   }
