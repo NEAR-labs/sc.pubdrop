@@ -7,5 +7,8 @@ fn test() {
   let (root, _) = init_simulation();
   let pubdrop = Pubdrop::default_new(root);
 
-  let metadata = pubdrop.get_metadata();
+  let res = pubdrop.set_drops(10, "2.1");
+  dbg!(res);
+  let res = pubdrop.get_metadata();
+  dbg!(res);
 }

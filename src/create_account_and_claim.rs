@@ -37,13 +37,16 @@ impl Pubdrop {
   }
 
   #[private]
-  pub fn on_create_account_and_claim(&mut self, new_account_id: AccountId) {
+  pub fn on_create_account_and_claim(&mut self, new_account_id: AccountId) -> Promise {
     assert!(
       is_promise_success(),
       "New account @{} wasn't created",
       new_account_id
     );
+
     self.active_drops -= 1;
     log!("New account @{} claimed a drop", new_account_id,);
+
+    Promise::new(env::current_account_id()).delete_key(env::signer_account_pk())
   }
 }

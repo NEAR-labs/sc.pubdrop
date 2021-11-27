@@ -43,6 +43,21 @@ impl Pubdrop {
     pubdrop
   }
 
+  pub fn set_drops(&self, active_drops: u32, drop_balance: &str) -> ExecutionResult {
+    self.account.call(
+      self.account.account_id.clone(),
+      "set_drops",
+      json!({
+        "active_drops": active_drops,
+        "drop_balance": U128::from(to_yocto(drop_balance)),
+      })
+      .to_string()
+      .as_bytes(),
+      DEFAULT_GAS,
+      0,
+    )
+  }
+
   pub fn get_metadata(&self) -> Value {
     self
       .account
